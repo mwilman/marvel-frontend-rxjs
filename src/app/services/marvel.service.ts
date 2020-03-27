@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {map, switchMap} from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged, distinctUntilKeyChanged, map, switchMap} from 'rxjs/operators';
 import {BehaviorSubject} from 'rxjs';
 
 @Injectable({
@@ -14,6 +14,8 @@ export class MarvelService {
   search$ = new BehaviorSubject('');
   heroes$ = this.search$
     .pipe(
+      // debounceTime(500),
+      // distinctUntilChanged(),
       switchMap(term => this.http.get<any>(`api/heroes/?name=${term}`)
         .pipe(
           map(res => res)
