@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {MarvelService} from '../../marvel.service';
+import {map, tap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-heroes',
@@ -8,9 +9,18 @@ import {MarvelService} from '../../marvel.service';
 })
 export class HeroesComponent implements OnInit {
 
-  constructor(private marvelService: MarvelService) { }
+  constructor(private marvelService: MarvelService) {
+  }
 
-  data = this.marvelService.heroes$;
+  data$ = this.marvelService.heroes$.pipe(
+    tap(x => console.log(x)),
+    map((array: Array<any>) => array
+      .map(
+        element => element.name
+      )
+    )
+  );
+
   ngOnInit(): void {
   }
 

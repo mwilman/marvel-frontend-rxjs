@@ -11,6 +11,6 @@ export class MarvelService {
 
   heroes$ = this.http.get<any>('api/heroes')
     .pipe(
-      map(res => res.data)
+      map(res => res)
     );
 }

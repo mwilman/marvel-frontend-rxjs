@@ -1,1 +1,5 @@
-<pre>{{data |async}}</pre>
+<div *ngIf="data$ |async as data">
+  <div *ngFor="let name of data">
+    <span>{{name}}</span>
+  </div>
+</div>
