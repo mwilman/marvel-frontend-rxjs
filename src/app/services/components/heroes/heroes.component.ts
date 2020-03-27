@@ -12,6 +12,8 @@ export class HeroesComponent implements OnInit {
   constructor(private marvelService: MarvelService) {
   }
 
+  search$ = this.marvelService.search$;
+
   data$ = this.marvelService.heroes$.pipe(
     tap(x => console.log(x)),
     map((array: Array<any>) => array
@@ -24,4 +26,8 @@ export class HeroesComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  doSearch(term) {
+    console.log(term);
+    this.marvelService.setTerm(term);
+  }
 }

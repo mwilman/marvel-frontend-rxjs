@@ -1,16 +1,26 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {map} from 'rxjs/operators';
+import {map, switchMap} from 'rxjs/operators';
+import {BehaviorSubject} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MarvelService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+  }
 
-  heroes$ = this.http.get<any>('api/heroes')
+  search$ = new BehaviorSubject('');
+  heroes$ = this.search$
     .pipe(
-      map(res => res)
+      switchMap(term => this.http.get<any>(`api/heroes/?name=${term}`)
+        .pipe(
+          map(res => res)
+        ))
     );
+
+  setTerm(term: string) {
+    this.search$.next(term);
+  }
 }
